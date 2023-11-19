@@ -11,13 +11,14 @@ def entrypoint():
 
 
 @click.command
-@click.option("--server_id", "-sid", required=False, type=int)
-def get_servers(server_id):
+@click.option("--server_id", "-id", required=False, type=int)
+def servers(server_id):
     client = Client(config=APIConfig())
     if server_id is not None:
-        client.get_server(server_id)
-    for item in client.get_servers():
-        pprint(item.model_dump())
+        pprint(client.get_server(server_id=server_id).model_dump())
+    else:
+        for item in client.get_servers():
+            pprint(item.model_dump())
 
 
-entrypoint.add_command(get_servers, name="servers")
+entrypoint.add_command(servers, name="servers")

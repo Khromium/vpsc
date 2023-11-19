@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class APIRequest:
     unsafe_methods = ["post", "put", "delete"]
     generator = None
-    count = None
+    count = 0
 
     def __init__(self, config: "APIConfig", header: MappingProxyType):
         self.config = config
@@ -69,18 +69,20 @@ class APIRequest:
         if result is None:
             return None
 
-        if self.count > 0 and result.get("results"):
-            results = result.get("results")
+        if self.count > 1 and result.get("results", False):
+            results = result["results"]
             for item in results:
                 yield response_obj(**item)
                 # 2ページ以降から返す
                 self.generator = self.__generator(response_obj=response_obj, per_page=10, **req_data)
+        else:
+            yield response_obj(**result)
 
     def _fetch(self, **req_data) -> Optional[dict]:
         res = requests.request(**req_data)
         res.raise_for_status()
         if res.content is not None and len(res.content) > 3:
             data = res.json()
-            self.count = data.get("count", None)
+            self.count = data.get("count", 1)
             return data
         return None

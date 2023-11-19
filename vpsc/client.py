@@ -25,9 +25,11 @@ class Client:
             response_obj=Server,
         )
 
-    def get_server(self, id: int) -> Iterable[Server]:
-        return APIRequest(config=self.config, header=self.header).request(
-            endpoint=f"/servers/{id}",
-            method="get",
-            response_obj=Server,
+    def get_server(self, server_id: int) -> Server:
+        return next(
+            APIRequest(config=self.config, header=self.header).request(
+                endpoint=f"/servers/{server_id}",
+                method="get",
+                response_obj=Server,
+            )
         )
