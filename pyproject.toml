@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "vpsc"
+version = "0.1.0"
+description = "python tools for SAKURA's VPS"
+authors = ["khromium"]
+license = "Apache License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pydantic = "^2.4.2"
+requests = "^2.31.0"
+click = "^8.1.7"
+pydantic-settings = "^2.1.0"
+
+[tool.poetry.scripts]
+vpsc = "vpsc.main:entrypoint"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 119
