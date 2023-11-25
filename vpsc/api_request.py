@@ -16,7 +16,7 @@ class APIRequest:
     def __init__(self, config: "APIConfig", header: MappingProxyType):
         self.config = config
         self.headers = dict(header)
-        self.headers["Authorization"] = f"Bearer {self.config.vps_api_key}"
+        self.headers["Authorization"] = f"Bearer {self.config.api_key}"
 
     def __len__(self):
         if self.count is None:
@@ -59,7 +59,7 @@ class APIRequest:
 
         req_data = {
             "method": method,
-            "url": f"{self.config.vps_api_host}{endpoint}",
+            "url": f"{self.config.host}{endpoint}",
             "headers": self.headers,
         }
         if content:
