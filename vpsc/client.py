@@ -8,9 +8,9 @@ from .models import server_sort_query, Server
 
 
 class APIConfig(BaseSettings):
-    model_config = SettingsConfigDict(env_file="~/.vpsc", env_file_encoding="utf-8")
-    vps_api_host: str = "https://secure.sakura.ad.jp/vps/api/v7"
-    vps_api_key: str
+    model_config = SettingsConfigDict(env_file="~/.vpsc", env_file_encoding="utf-8", env_prefix="vps_api_")
+    host: str = "https://secure.sakura.ad.jp/vps/api/v7"
+    key: str
 
 
 class Client:
