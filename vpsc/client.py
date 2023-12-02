@@ -19,6 +19,11 @@ class Client:
         self.header = MappingProxyType({"Authorization": f"Bearer {self.config.api_key}"})
 
     def get_servers(self, sort: Optional[server_sort_query] = None) -> Iterable[Server]:
+        """
+        サーバー一覧を取得する
+        :param sort: ソート情報
+        :return:
+        """
         return APIRequest(config=self.config, header=self.header).request(
             endpoint="/servers",
             method="get",
@@ -26,10 +31,13 @@ class Client:
         )
 
     def get_server(self, server_id: int) -> Server:
-        return next(
-            APIRequest(config=self.config, header=self.header).request(
-                endpoint=f"/servers/{server_id}",
-                method="get",
-                response_obj=Server,
-            )
+        """
+        個別のサーバー情報を取得する
+        :param server_id: サーバーid
+        :return:
+        """
+        return APIRequest(config=self.config, header=self.header).request(
+            endpoint=f"/servers/{server_id}",
+            method="get",
+            response_obj=Server,
         )

@@ -1,3 +1,4 @@
+from collections.abc import Sized, Iterator
 from types import MappingProxyType
 from typing import Literal, Optional, Type, TYPE_CHECKING
 
@@ -8,7 +9,7 @@ if TYPE_CHECKING:
     from client import APIConfig
 
 
-class APIRequest:
+class APIRequest(Iterator, Sized):
     unsafe_methods = ["post", "put", "delete"]
     generator = None
     count = 0
@@ -21,6 +22,7 @@ class APIRequest:
     def __len__(self):
         if self.count is None:
             raise ValueError("request first")
+
         return self.count
 
     def __iter__(self):
@@ -33,7 +35,9 @@ class APIRequest:
             raise NotImplementedError()
         return next(self.generator)
 
-    def __generator(self, response_obj: Optional[Type[BaseModel]], per_page: int, **request_args):
+    def __generator(self, prefetch_data: list, response_obj: Optional[Type[BaseModel]], per_page: int, **request_args):
+        for item in prefetch_data:
+            yield response_obj(**item)
         for i in range(2, per_page, self.count):  # 2ページ目から取得
             params = {"perpage": per_page, "page": i}
             next_url = request_args["url"]
@@ -69,14 +73,14 @@ class APIRequest:
         if result is None:
             return None
 
-        if self.count > 1 and result.get("results", False):
-            results = result["results"]
-            for item in results:
-                yield response_obj(**item)
-                # 2ページ以降から返す
-                self.generator = self.__generator(response_obj=response_obj, per_page=10, **req_data)
+        if self.count > 0 and result.get("results", False):
+            req_data["url"] = result.get("next", False)
+            self.generator = self.__generator(
+                prefetch_data=result["results"], response_obj=response_obj, per_page=10, **req_data
+            )
+            return self
         else:
-            yield response_obj(**result)
+            return response_obj(**result)
 
     def _fetch(self, **req_data) -> Optional[dict]:
         res = requests.request(**req_data)
