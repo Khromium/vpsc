@@ -1,0 +1,57 @@
+{
+  "results": [
+    {
+      "id": 0,
+      "name": "string",
+      "description": "string",
+      "service_type": "linux",
+      "service_status": "on_trial",
+      "cpu_cores": 2,
+      "memory_mebibytes": 1024,
+      "storage": [
+        {
+          "port": 0,
+          "type": "ssd",
+          "size_gibibytes": 100
+        }
+      ],
+      "zone": {
+        "code": "tk1",
+        "name": "石狩第1"
+      },
+      "options": [
+        "SQL Server Web Edition"
+      ],
+      "version": "v5",
+      "ipv4": {
+        "address": "198.51.100.2",
+        "netmask": "255.255.254.0",
+        "gateway": "198.51.100.1",
+        "nameservers": [
+          "203.0.113.1"
+        ],
+        "hostname": "example.jp",
+        "ptr": "example.jp"
+      },
+      "ipv6": {
+        "address": "2001:e42:102:1501:153:121:89:107",
+        "prefixlen": 64,
+        "gateway": "fe80::1",
+        "nameservers": [
+          "2001:e42::1"
+        ],
+        "hostname": "example.jp",
+        "ptr": "example.jp"
+      },
+      "contract": {
+        "plan_code": 3439,
+        "plan_name": "さくらのVPS(v5)  1G IK01",
+        "service_code": "100000000000"
+      },
+      "power_status": "power_on"
+    }
+  ],
+  "count": 1,
+  "next": null,
+  "previous": null
+}

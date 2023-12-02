@@ -12,6 +12,7 @@ pydantic = "^2.4.2"
 requests = "^2.31.0"
 click = "^8.1.7"
 pydantic-settings = "^2.1.0"
+pytest = "^7.4.3"
 
 [tool.poetry.scripts]
 vpsc = "vpsc.main:entrypoint"
