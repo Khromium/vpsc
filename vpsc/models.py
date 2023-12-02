@@ -1,6 +1,6 @@
 from typing import Literal, List, Optional
 
-from pydantic import BaseModel, IPvAnyAddress, Field
+from pydantic import BaseModel, IPvAnyAddress
 
 
 class Storage(BaseModel):
@@ -18,8 +18,8 @@ class IPv6Address(BaseModel):
     address: IPvAnyAddress
     gateway: IPvAnyAddress
     nameservers: List[IPvAnyAddress]
-    hostname: str = Field(pattern=r"^.+sakura\.ne\.jp$")
-    ptr: str = Field(pattern=r"^.+sakura\.ne\.jp$")
+    hostname: str
+    ptr: str
 
 
 class IPv4Address(BaseModel):
@@ -27,8 +27,8 @@ class IPv4Address(BaseModel):
     netmask: IPvAnyAddress
     gateway: IPvAnyAddress
     nameservers: List[IPvAnyAddress]
-    hostname: str = Field(pattern=r"^.+sakura\.ne\.jp$")
-    ptr: str = Field(pattern=r"^.+sakura\.ne\.jp$")
+    hostname: str
+    ptr: str
 
 
 class Contract(BaseModel):
