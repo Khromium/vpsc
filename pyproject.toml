@@ -7,7 +7,7 @@ license = "Apache License"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 pydantic = "^2.4.2"
 requests = "^2.31.0"
 click = "^8.1.7"
