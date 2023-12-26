@@ -1,0 +1,27 @@
+{
+  "id": 0,
+  "name": "string",
+  "description": "string",
+  "service_status": "in_preparation",
+  "setting_status": "done",
+  "storage": [
+    {
+      "type": "ssd",
+      "size_gibibytes": 100
+    }
+  ],
+  "zone": {
+    "code": "tk1",
+    "name": "石狩第1"
+  },
+  "ipv4": {
+    "address": "198.51.100.2",
+    "netmask": "255.255.254.0"
+  },
+  "contract": {
+    "plan_code": 3439,
+    "plan_name": "さくらのVPS(v5)  NFS 200GB OS03",
+    "service_code": "100000000000"
+  },
+  "power_status": "power_on"
+}
