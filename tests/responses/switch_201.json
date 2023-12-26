@@ -1,0 +1,13 @@
+{
+  "id": 0,
+  "name": "string",
+  "description": "string",
+  "switch_code": "string",
+  "zone": {
+    "code": "tk2",
+    "name": "石狩第1"
+  },
+  "server_interfaces": [],
+  "nfs_server_interfaces": [],
+  "external_connection": null
+}

@@ -167,7 +167,7 @@ class Client:
             response_obj=NfsServer,
         )
 
-    def get_nfs_server_ipv4_ptr(self, nfs_server_id: int, data: UpdateNfsServerIpv4):
+    def update_nfs_server_ipv4(self, nfs_server_id: int, data: UpdateNfsServerIpv4):
         """
         NFSサーバーのipv4を設定する
         :param nfs_server_id: NFSサーバーID

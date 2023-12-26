@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "id": 0,
+      "name": "string",
+      "description": "string",
+      "switch_code": "string",
+      "zone": {
+        "code": "tk1",
+        "name": "石狩第1"
+      },
+      "server_interfaces": [
+        0
+      ],
+      "nfs_server_interfaces": [
+        0
+      ],
+      "external_connection": {
+        "service_code": "100000000000",
+        "type": "cloud",
+        "services": [
+          {
+            "service_category": "cloud",
+            "service_name": "クラウド東京第1ゾーン",
+            "switch_code": "111111111111"
+          }
+        ]
+      }
+    }
+  ],
+  "count": 1,
+  "next": null,
+  "previous": null
+}

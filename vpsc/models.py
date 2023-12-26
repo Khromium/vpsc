@@ -197,7 +197,7 @@ class Switch(BaseModel):
     zone: Zone = Field(..., description="ゾーン情報")
     server_interfaces: List[int] = Field(..., description="接続されているサーバーのインターフェースid")
     nfs_server_interfaces: List[int] = Field(..., description="接続されている追加ストレージ（NFS）のインターフェースid")
-    external_connection: ExternalConnection = Field(..., description="接続されている外部接続の情報")
+    external_connection: Optional[ExternalConnection] = Field(..., description="接続されている外部接続の情報")
 
 
 class UpdateServer(BaseModel):
