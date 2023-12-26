@@ -1,6 +1,6 @@
 import unittest
 
-from models import UpdateNfsServerIpv4
+from vpsc.models import UpdateNfsServerIpv4
 from vpsc.client import Client, APIConfig
 from .patch_request import patch_request
 
