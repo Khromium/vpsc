@@ -43,6 +43,12 @@ vpscのドキュメントへようこそ！
    // optional
    VPS_API_HOST="https://secure.sakura.ad.jp/vps/api/v7"
 
+
+Todo
+========================
+* エラーハンドリング
+* コマンドの追加
+
 ================================
 
 .. toctree::
