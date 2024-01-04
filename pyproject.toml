@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vpsc"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python tools for SAKURA's VPS"
 authors = ["khromium"]
 homepage = "https://vpsc.readthedocs.io/ja/latest/"
