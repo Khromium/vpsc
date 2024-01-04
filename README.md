@@ -4,16 +4,9 @@
 
 
 # 利用方法
-## APIキーの定義
-環境変数で `VPS_API_KEY` にAPIキーを設定するか、 `~/.vpsc` フォルダに該当変数を記録して利用します。  
-オプションでリクエスト先のホストを変更することもできます。  
+詳細はドキュメントをご覧ください  
 
-```shell
-VPS_API_KEY=xxx
-VPS_API_HOST="https://secure.sakura.ad.jp/vps/api/v7"
-
-```
-
+https://vpsc.readthedocs.io/ja/latest/
 
 # その他
 ## さくらのVPSマニュアル(API)
