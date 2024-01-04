@@ -10,8 +10,6 @@ import click
 from .models import UpdateServer
 from .client import APIConfig, Client
 
-client = Client(config=APIConfig())
-
 
 @click.group()
 def vpsc():
@@ -20,7 +18,8 @@ def vpsc():
 
     vpsc 以下にservers 等のコマンドで更新取得を行います。
     """
-    pass
+    global client
+    client = Client(config=APIConfig())
 
 
 @click.command()

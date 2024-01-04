@@ -1,10 +1,6 @@
 vpsc package
 ============
 
-Submodules
-----------
-
-
 vpsc.commands module
 --------------------
 
