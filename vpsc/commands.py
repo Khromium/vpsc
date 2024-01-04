@@ -6,7 +6,7 @@ from .client import APIConfig, Client
 
 
 @click.group()
-def entrypoint():
+def vpsc():
     pass
 
 
@@ -21,4 +21,4 @@ def servers(server_id):
             pprint(item.model_dump())
 
 
-entrypoint.add_command(servers, name="servers")
+vpsc.add_command(servers, name="servers")

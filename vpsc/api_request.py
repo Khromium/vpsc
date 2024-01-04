@@ -1,3 +1,9 @@
+"""リクエストモジュール
+
+APIへのリクエストを直接的に行なっているモジュールです。
+ページングなどの処理もこちらで対応。
+
+"""
 from collections.abc import Sized, Iterator
 from types import MappingProxyType
 from typing import Literal, Optional, Type, TYPE_CHECKING
