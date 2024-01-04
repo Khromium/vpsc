@@ -35,6 +35,7 @@ class Client:
     def get_servers(self, sort: Optional[server_sort_query] = None) -> Iterable[Server]:
         """
         サーバー一覧を取得する
+
         :param sort: ソート情報
         :return:
         """
@@ -47,6 +48,7 @@ class Client:
     def get_server(self, server_id: int) -> Server:
         """
         個別のサーバー情報を取得する
+
         :param server_id: サーバーID
         :return:
         """
@@ -59,6 +61,7 @@ class Client:
     def update_server(self, server_id: int, data: UpdateServer) -> Server:
         """
         個別のサーバー情報を更新する
+
         :param server_id: サーバーID
         :param data: 更新データ
         :return:
@@ -73,6 +76,7 @@ class Client:
     def get_server_power_status(self, server_id: int) -> ServerPowerStatus:
         """
         サーバーの電源状態を取得する
+
         :param server_id:　サーバーID
         :return:
         """
@@ -85,6 +89,7 @@ class Client:
     def power_on_server(self, server_id: int):
         """
         サーバーを起動する
+
         :param server_id: サーバーID
         :return:
         """
@@ -96,6 +101,7 @@ class Client:
     def shutdown_server(self, server_id: int, force: bool = False):
         """
         サーバーをシャットダウンする
+
         :param force: 強制停止を行うか
         :param server_id: サーバーID
         :return:
@@ -110,6 +116,7 @@ class Client:
     def force_force_reboot_server(self, server_id: int):
         """
         サーバーを強制再起動する
+
         :param server_id: サーバーID
         :return:
         """
@@ -121,6 +128,7 @@ class Client:
     def update_server_ipv4_ptr(self, server_id: int, data: UpdateHost):
         """
         サーバーのipv4の逆引きホスト名を設定する
+
         :param server_id: サーバーID
         :param data: 設定データ
         :return:
@@ -134,6 +142,7 @@ class Client:
     def update_server_ipv6_ptr(self, server_id: int, data: UpdateHost):
         """
         サーバーのipv6の逆引きホスト名を設定する
+
         :param server_id: サーバーID
         :param data: 設定データ
         :return:
@@ -147,6 +156,7 @@ class Client:
     def get_nfs_servers(self) -> List[NfsServer]:
         """
         NFSサーバー情報一覧を取得する
+
         :return:
         """
         return self.client.request(
@@ -158,6 +168,8 @@ class Client:
     def get_nfs_server(self, nfs_server_id: int) -> NfsServer:
         """
         個別のNFSサーバー情報を取得する
+
+
         :param nfs_server_id: NFSサーバーID
         :return:
         """
@@ -170,6 +182,7 @@ class Client:
     def update_nfs_server_ipv4(self, nfs_server_id: int, data: UpdateNfsServerIpv4):
         """
         NFSサーバーのipv4を設定する
+
         :param nfs_server_id: NFSサーバーID
         :param data: 設定情報
         :return:
@@ -183,6 +196,7 @@ class Client:
     def get_nfs_server_power_status(self, nfs_server_id: int) -> NfsServerPowerStatus:
         """
         NFSサーバーの電源状態を取得する
+
         :param nfs_server_id:
         :return:
         """
@@ -193,6 +207,7 @@ class Client:
     def create_switch(self, data: CreateSwitch) -> Switch:
         """
         スイッチを作成する
+
         :param data: 作成データ
         :return:
         """
@@ -206,6 +221,7 @@ class Client:
     def get_switches(self) -> List[Switch]:
         """
         スイッチ情報一覧を取得する
+
         :return:
         """
         return self.client.request(
@@ -217,6 +233,7 @@ class Client:
     def get_switch(self, switch_id: int) -> Switch:
         """
         個別のスイッチ情報を取得する
+
         :param switch_id: スイッチID
         :return:
         """
@@ -229,6 +246,7 @@ class Client:
     def update_switch(self, switch_id: int, data: UpdateSwitch) -> Switch:
         """
         個別のスイッチ情報を更新する
+
         :param switch_id: スイッチID
         :param data: 更新データ
         :return:
@@ -243,6 +261,7 @@ class Client:
     def delete_switch(self, switch_id: int):
         """
         個別のスイッチを削除する
+
         :param switch_id: スイッチID
         :return:
         """
