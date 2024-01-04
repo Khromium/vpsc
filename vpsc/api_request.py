@@ -4,6 +4,7 @@ APIへのリクエストを直接的に行なっているモジュールです�
 ページングなどの処理もこちらで対応。
 
 """
+import json
 from collections.abc import Sized, Iterator
 from types import MappingProxyType
 from typing import Literal, Optional, Type, TYPE_CHECKING
@@ -65,7 +66,7 @@ class APIRequest(Iterator, Sized):
         if method in self.unsafe_methods:
             self.headers["content-type"] = "application/json"
             if data:
-                content = data.model_dump_json(exclude_unset=True)
+                content = data.model_dump_json(exclude_unset=True).encode("utf-8")
 
         req_data = {
             "method": method,

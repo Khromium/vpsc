@@ -39,7 +39,7 @@ class TestServers(unittest.TestCase):
             method="put",
             url=f"{self.client.config.host}/servers/0",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_unset=True),
+            data=data.model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
     @patch_request("server_power_status_200")
@@ -100,7 +100,7 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/servers/0/shutdown",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=ShutdownServer(force=False).model_dump_json(exclude_unset=True),
+            data=ShutdownServer(force=False).model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
         patched.reset_mock()
@@ -110,7 +110,7 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/servers/0/shutdown",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=ShutdownServer(force=True).model_dump_json(exclude_unset=True),
+            data=ShutdownServer(force=True).model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
     @patch_request("status_202")
@@ -132,7 +132,7 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/servers/0/ipv4-ptr",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_unset=True),
+            data=data.model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
     @patch_request("status_200")
@@ -144,5 +144,5 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/servers/0/ipv6-ptr",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_unset=True),
+            data=data.model_dump_json(exclude_unset=True).encode("utf-8"),
         )

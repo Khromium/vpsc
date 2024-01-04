@@ -39,7 +39,7 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/nfs-servers/0/ipv4",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_none=True),
+            data=data.model_dump_json(exclude_none=True).encode("utf-8"),
         )
 
     @patch_request("nfs_server_power_status_200")

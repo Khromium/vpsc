@@ -22,7 +22,7 @@ class TestServers(unittest.TestCase):
             method="post",
             url=f"{self.client.config.host}/switches",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_none=True),
+            data=data.model_dump_json(exclude_none=True).encode("utf-8"),
         )
 
     @patch_request("switches_200")
@@ -55,7 +55,7 @@ class TestServers(unittest.TestCase):
             method="put",
             url=f"{self.client.config.host}/switches/0",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
-            data=data.model_dump_json(exclude_unset=True),
+            data=data.model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
     @patch_request("status_204")
