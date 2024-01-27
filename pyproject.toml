@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vpsc"
-version = "0.1.2"
+version = "0.0.0"  # using poetry-dynamic-versioning
 description = "Python tools for SAKURA's VPS"
 authors = ["khromium"]
 homepage = "https://vpsc.readthedocs.io/ja/latest/"
@@ -30,9 +30,13 @@ sphinx-rtd-theme = "^2.0.0"
 autodoc-pydantic = "^2.0.1"
 sphinx-click = "^5.1.0"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+pattern = "default-unprefixed"
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.black]
 line-length = 119
