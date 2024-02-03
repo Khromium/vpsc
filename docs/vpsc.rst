@@ -1,7 +1,7 @@
 vpsc package
 ============
 
-vpsc.commands module
+コマンドモジュール
 --------------------
 
 .. automodule:: vpsc.commands
@@ -12,7 +12,7 @@ vpsc.commands module
    :prog: vpsc
    :nested: full
 
-vpsc.models module
+データモデル
 ------------------
 
 .. automodule:: vpsc.models
@@ -20,16 +20,7 @@ vpsc.models module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: vpsc
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-vpsc.api\_request module
+リクエストモジュール
 ------------------------
 
 .. automodule:: vpsc.api_request
@@ -37,7 +28,7 @@ vpsc.api\_request module
    :undoc-members:
    :show-inheritance:
 
-vpsc.client module
+クライアントモジュール
 ------------------
 
 .. automodule:: vpsc.client
