@@ -95,6 +95,19 @@ vpsc.add_command(power_status_server, name="power-status-server")
 vpsc.add_command(power_on_server, name="power-on-server")
 vpsc.add_command(shutdown_server, name="shutdown-server")
 vpsc.add_command(update_server_ptr_record, name="update-server-ptr-record")
+@click.command(name="ptr_record")
+@click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
+@click.option("--type", "-t", help="設定タイプ", required=True, type=click.Choice(["ipv4", "ipv6"], case_sensitive=True))
+@click.option("--hostname", "-h", help="ホスト名", required=True, type=str)
+def update_server_ptr_record(server_id, _type, hostname):
+    """サーバーの逆引きホスト名を設定"""
+    data = UpdateHost(hostname=hostname)
+    if _type == "ipv4":
+        client.update_server_ipv4_ptr(server_id=server_id, data=data)
+    elif _type == "ipv6":
+        client.update_server_ipv6_ptr(server_id=server_id, data=data)
+    pprint(client.get_server(server_id=server_id).model_dump())
+
 # server commands
 server.add_command(get_servers)
 server.add_command(update_server)
