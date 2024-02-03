@@ -37,23 +37,23 @@ def servers(server_id):
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
 @click.option("--name", "-n", help="名前", required=False, type=str, default="")
 @click.option("--description", "-d", help="説明", required=False, type=str, default="")
-def server_update(server_id, name, description):
+def update_server(server_id, name, description):
     """サーバー情報更新"""
     data = UpdateServer(name=name, description=description)
-    client.update_server(server_id=server_id, data=data)
-    pprint(client.get_server(server_id=server_id).model_dump())
+    res = client.update_server(server_id=server_id, data=data)
+    pprint(res.model_dump())
 
 
 @click.command()
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
-def server_power_status(server_id):
+def power_status_server(server_id):
     """サーバーの電源状態を取得"""
     pprint(client.get_server_power_status(server_id=server_id).model_dump())
 
 
 @click.command()
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
-def server_power_on(server_id):
+def power_on_server(server_id):
     """サーバーを起動"""
     client.power_on_server(server_id=server_id)
     sleep(5)
@@ -63,7 +63,7 @@ def server_power_on(server_id):
 @click.command()
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
 @click.option("--force", "-f", help="強制的にシャットダウン", required=False, type=bool, default=False, is_flag=True)
-def server_shutdown(server_id, force):
+def shutdown_server(server_id, force):
     """サーバーをシャットダウン"""
     client.shutdown_server(server_id=server_id, force=force)
     sleep(5)
@@ -75,3 +75,8 @@ vpsc.add_command(server_update, name="server-update")
 vpsc.add_command(server_power_status, name="server-power-status")
 vpsc.add_command(server_power_on, name="server-power-on")
 vpsc.add_command(server_shutdown, name="server-shutdown")
+vpsc.add_command(update_server, name="update-server")
+vpsc.add_command(power_status_server, name="power-status-server")
+vpsc.add_command(power_on_server, name="power-on-server")
+vpsc.add_command(shutdown_server, name="shutdown-server")
+vpsc.add_command(update_server_ptr_record, name="update-server-ptr-record")
