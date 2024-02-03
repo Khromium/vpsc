@@ -1,6 +1,6 @@
 import unittest
 
-from vpsc.models import UpdateNfsServerIpv4
+from vpsc.models import UpdateNfsServerIpv4, UpdateNfsServer
 from vpsc.client import Client, APIConfig
 from .patch_request import patch_request
 
@@ -40,6 +40,18 @@ class TestServers(unittest.TestCase):
             url=f"{self.client.config.host}/nfs-servers/0/ipv4",
             headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
             data=data.model_dump_json(exclude_none=True).encode("utf-8"),
+        )
+
+    @patch_request("nfs_server_200")
+    def test_update_nfs_server(self, patched):
+        data = UpdateNfsServer(name="name_test", description="description_test")
+        result = self.client.update_nfs_server(nfs_server_id=0, data=data)
+        assert 0 == result.id
+        patched.assert_called_once_with(
+            method="put",
+            url=f"{self.client.config.host}/nfs-servers/0",
+            headers={"Authorization": f"Bearer {self.client.config.api_key}", "content-type": "application/json"},
+            data=data.model_dump_json(exclude_unset=True).encode("utf-8"),
         )
 
     @patch_request("nfs_server_power_status_200")
