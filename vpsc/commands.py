@@ -14,17 +14,32 @@ from .client import APIConfig, Client
 @click.group()
 def vpsc():
     """
-    VPSC コマンドグループです。
+    VPSC コマンドです。
 
-    vpsc 以下にservers 等のコマンドで更新取得を行います。
+    操作するリソースを指定して実行してください
     """
     global client
     client = Client(config=APIConfig())
 
 
-@click.command()
+@vpsc.group()
+def server():
+    """
+    サーバーリソースに対する操作
+    """
+    pass
+
+
+@vpsc.group()
+def nfs_server():
+    """
+    NFSサーバーのリソースに対する操作
+    """
+
+
+@click.command(name="list")
 @click.option("--server_id", "-id", help="サーバーID", required=False, type=int)
-def servers(server_id):
+def get_servers(server_id):
     """サーバー情報の取得"""
     if server_id is not None:
         pprint(client.get_server(server_id=server_id).model_dump())
@@ -33,7 +48,7 @@ def servers(server_id):
             pprint(item.model_dump())
 
 
-@click.command()
+@click.command(name="update")
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
 @click.option("--name", "-n", help="名前", required=False, type=str, default="")
 @click.option("--description", "-d", help="説明", required=False, type=str, default="")
@@ -44,14 +59,14 @@ def update_server(server_id, name, description):
     pprint(res.model_dump())
 
 
-@click.command()
+@click.command(name="power_status")
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
-def power_status_server(server_id):
+def get_server_power_status(server_id):
     """サーバーの電源状態を取得"""
     pprint(client.get_server_power_status(server_id=server_id).model_dump())
 
 
-@click.command()
+@click.command(name="power_on")
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
 def power_on_server(server_id):
     """サーバーを起動"""
@@ -60,7 +75,7 @@ def power_on_server(server_id):
     pprint(client.get_server_power_status(server_id=server_id).model_dump())
 
 
-@click.command()
+@click.command(name="shutdown")
 @click.option("--server_id", "-id", help="サーバーID", required=True, type=int)
 @click.option("--force", "-f", help="強制的にシャットダウン", required=False, type=bool, default=False, is_flag=True)
 def shutdown_server(server_id, force):
@@ -80,3 +95,10 @@ vpsc.add_command(power_status_server, name="power-status-server")
 vpsc.add_command(power_on_server, name="power-on-server")
 vpsc.add_command(shutdown_server, name="shutdown-server")
 vpsc.add_command(update_server_ptr_record, name="update-server-ptr-record")
+# server commands
+server.add_command(get_servers)
+server.add_command(update_server)
+server.add_command(get_server_power_status)
+server.add_command(power_on_server)
+server.add_command(shutdown_server)
+
