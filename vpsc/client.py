@@ -17,6 +17,7 @@ from .models import (
     UpdateSwitch,
     UpdateNfsServerIpv4,
     ShutdownServer,
+    UpdateNfsServer,
 )
 
 
@@ -176,6 +177,20 @@ class Client:
         return self.client.request(
             endpoint=f"/nfs-servers/{nfs_server_id}",
             method="get",
+            response_obj=NfsServer,
+        )
+
+    def update_nfs_server(self, nfs_server_id: int, data: UpdateNfsServer):
+        """
+        個別のNFSサーバー情報を更新する
+        :param nfs_server_id:  NFSサーバーID
+        :param data: 更新データ
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/nfs-servers/{nfs_server_id}",
+            method="put",
+            data=data,
             response_obj=NfsServer,
         )
 
