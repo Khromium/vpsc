@@ -46,11 +46,11 @@ class APIRequest(Iterator, Sized):
         for item in prefetch_data:
             yield response_obj(**item)
         for i in range(2, per_page, self.count):  # 2ページ目から取得
-            params = {"perpage": per_page, "page": i}
+            request_args["params"] = {"per_page": per_page, "page": i}
             next_url = request_args["url"]
             while next_url:
                 request_args["url"] = next_url
-                results = self._fetch(**request_args, **params)
+                results = self._fetch(**request_args)
                 for item in results:
                     yield response_obj(**item)
                 next_url = results.get("next", False)
