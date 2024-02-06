@@ -33,7 +33,7 @@ vpscのドキュメントへようこそ！
 
    $ export VPS_API_KEY=xxx
    // optional
-   $ export VPS_API_HOST="https://secure.sakura.ad.jp/vps/api/v7"
+   $ export VPS_HOST="https://secure.sakura.ad.jp/vps/api/v7"
 
 もしくは `~/.vpsc` に設定を入れます
 
@@ -41,7 +41,7 @@ vpscのドキュメントへようこそ！
 
    VPS_API_KEY=xxx
    // optional
-   VPS_API_HOST="https://secure.sakura.ad.jp/vps/api/v7"
+   VPS_HOST="https://secure.sakura.ad.jp/vps/api/v7"
 
 
 Todo
