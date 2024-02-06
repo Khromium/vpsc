@@ -52,7 +52,7 @@ class APIRequest(Iterator, Sized):
                 request_args["url"] = next_url
                 results = self._fetch(**request_args)
                 for item in results:
-                    yield response_obj(**item)
+                    yield response_obj(**item["results"])
                 next_url = results.get("next", False)
 
     def request(
