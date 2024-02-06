@@ -51,8 +51,8 @@ class APIRequest(Iterator, Sized):
             while next_url:
                 request_args["url"] = next_url
                 results = self._fetch(**request_args)
-                for item in results:
-                    yield response_obj(**item["results"])
+                for item in results["results"]:
+                    yield response_obj(**item)
                 next_url = results.get("next", False)
 
     def request(
