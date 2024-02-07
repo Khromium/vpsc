@@ -5,13 +5,15 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import subprocess
+
 
 project = "vpsc"
 copyright = "2023, khromium"
 author = "khromium"
 
-version = "0.1.0"
-release = "0.1.0"
+version = subprocess.check_output(["git", "describe", "--tags"]).strip().decode("utf-8")
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
