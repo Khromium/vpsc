@@ -106,12 +106,12 @@ class Ipv4(BaseModel):
 
 
 class Ipv6(BaseModel):
-    address: str = Field(..., description="""アドレス""", examples=["2001:e42:102:1501:153:121:89:107"])
-    prefixlen: int = Field(..., description="""プレフィックス長""", examples=[64])
-    gateway: str = Field(..., description="""ゲートウェイのアドレス""", examples=["fe80::1"])
-    nameservers: List[str] = Field(..., description="""ネームサーバーのアドレスリスト""")
-    hostname: str = Field(..., description="""標準ホスト名""", examples=["example.jp"])
-    ptr: str = Field(..., description="""逆引きホスト名""", examples=["example.jp"])
+    address: Optional[str] = Field(..., description="""アドレス""", examples=["2001:e42:102:1501:153:121:89:107"])
+    prefixlen: Optional[int] = Field(..., description="""プレフィックス長""", examples=[64])
+    gateway: Optional[str] = Field(..., description="""ゲートウェイのアドレス""", examples=["fe80::1"])
+    nameservers: List[str] = Field([], description="""ネームサーバーのアドレスリスト""")
+    hostname: Optional[str] = Field(..., description="""標準ホスト名""", examples=["example.jp"])
+    ptr: Optional[str] = Field(..., description="""逆引きホスト名""", examples=["example.jp"])
 
 
 class Contract(BaseModel):
