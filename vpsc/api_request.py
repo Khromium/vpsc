@@ -42,11 +42,14 @@ class APIRequest(Iterator, Sized):
             raise NotImplementedError()
         return next(self.generator)
 
-    def __generator(self, prefetch_data: list, response_obj: Optional[Type[BaseModel]], per_page: int, **request_args):
-        for item in prefetch_data:
+    def __generator(self, prefetch_data: dict, response_obj: Optional[Type[BaseModel]], per_page: int, **request_args):
+        for item in prefetch_data["results"]:
             yield response_obj(**item)
+        next_url = prefetch_data.get("next")
+        if not next_url:
+            return
+
         # 2ページ目から取得
-        next_url = f"{request_args['url']}?per_page={per_page}&page={2}"
         while next_url:
             request_args["url"] = next_url
             results = self._fetch(**request_args)
@@ -80,10 +83,7 @@ class APIRequest(Iterator, Sized):
             return None
 
         if self.count > 0 and result.get("results", False):
-            req_data["url"] = result.get("next", False)
-            self.generator = self.__generator(
-                prefetch_data=result["results"], response_obj=response_obj, per_page=10, **req_data
-            )
+            self.generator = self.__generator(prefetch_data=result, response_obj=response_obj, per_page=10, **req_data)
             return self
         else:
             return response_obj(**result)
