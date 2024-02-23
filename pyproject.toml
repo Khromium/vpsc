@@ -16,7 +16,7 @@ click = "^8.1.7"
 pydantic-settings = "^2.1.0"
 
 [tool.poetry.scripts]
-vpsc = "vpsc.commands:vpsc"
+vpsc = "vpsc.commands:entry_point"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.10.1"

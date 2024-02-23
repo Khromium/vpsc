@@ -7,6 +7,7 @@ from time import sleep
 
 import click
 
+from .exceptions import exception_handler, APIException
 from .models import UpdateServer, UpdateHost, UpdateNfsServer, UpdateNfsServerIpv4
 from .client import APIConfig, Client
 
@@ -100,7 +101,7 @@ def update_server_ptr_record(server_id, _type, hostname):
 
 
 @click.command(name="list")
-@click.option("--nfs-server-id", "-nid", help="NFSサーバーID", required=False, type=int)
+@click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=False, type=int)
 def get_nfs_servers(server_id):
     """NFSサーバー情報の取得"""
     if server_id is not None:
@@ -111,7 +112,7 @@ def get_nfs_servers(server_id):
 
 
 @click.command(name="update")
-@click.option("--nfs-server-id", "-nid", help="NFSサーバーID", required=False, type=int)
+@click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=False, type=int)
 @click.option("--name", "-n", help="名前", required=False, type=str, default="")
 @click.option("--description", "-d", help="説明", required=False, type=str, default="")
 def update_nfs_server(nfs_server_id, name, description):
@@ -122,7 +123,7 @@ def update_nfs_server(nfs_server_id, name, description):
 
 
 @click.command(name="update-ipv4")
-@click.option("--nfs-server-id", "-nid", help="NFSサーバーID", required=False, type=int)
+@click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=False, type=int)
 @click.option("--hostname", "-h", help="ホスト名", required=True, type=str)
 def update_nfs_server_ipv4(nfs_server_id, address, netmask):
     """NFSサーバーのipv4を設定"""
@@ -151,3 +152,12 @@ nfs_server.add_command(get_nfs_servers)
 nfs_server.add_command(update_nfs_server)
 nfs_server.add_command(update_nfs_server_ipv4)
 nfs_server.add_command(get_nfs_server_power_status)
+
+
+def entry_point():
+    try:
+        vpsc()
+    except APIException as e:
+        exception_handler(e)
+    except Exception as e:
+        click.echo(e)
