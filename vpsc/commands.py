@@ -2,14 +2,18 @@
 VPSC のコマンド一覧です
 """
 
-from pprint import pprint
 from time import sleep
 
 import click
+from pydantic import BaseModel
 
 from .exceptions import exception_handler, APIException
 from .models import UpdateServer, UpdateHost, UpdateNfsServer, UpdateNfsServerIpv4
 from .client import APIConfig, Client
+
+
+def _print(data: BaseModel):
+    click.echo(data.model_dump_json(exclude_unset=True, indent=2))
 
 
 @click.group()
@@ -43,10 +47,10 @@ def nfs_server():
 def get_servers(server_id):
     """サーバー情報の取得"""
     if server_id is not None:
-        pprint(client.get_server(server_id=server_id).model_dump())
+        _print(client.get_server(server_id=server_id))
     else:
         for item in client.get_servers():
-            pprint(item.model_dump())
+            _print(item)
 
 
 @click.command(name="update")
@@ -57,14 +61,14 @@ def update_server(server_id, name, description):
     """サーバー情報更新"""
     data = UpdateServer(name=name, description=description)
     res = client.update_server(server_id=server_id, data=data)
-    pprint(res.model_dump())
+    _print(res)
 
 
 @click.command(name="power-status")
 @click.option("--server-id", "-id", help="サーバーID", required=True, type=int)
 def get_server_power_status(server_id):
     """サーバーの電源状態を取得"""
-    pprint(client.get_server_power_status(server_id=server_id).model_dump())
+    _print(client.get_server_power_status(server_id=server_id))
 
 
 @click.command(name="power-on")
@@ -73,7 +77,7 @@ def power_on_server(server_id):
     """サーバーを起動"""
     client.power_on_server(server_id=server_id)
     sleep(5)
-    pprint(client.get_server_power_status(server_id=server_id).model_dump())
+    _print(client.get_server_power_status(server_id=server_id))
 
 
 @click.command(name="shutdown")
@@ -83,7 +87,7 @@ def shutdown_server(server_id, force):
     """サーバーをシャットダウン"""
     client.shutdown_server(server_id=server_id, force=force)
     sleep(5)
-    pprint(client.get_server_power_status(server_id=server_id).model_dump())
+    _print(client.get_server_power_status(server_id=server_id))
 
 
 @click.command(name="ptr-record")
@@ -97,7 +101,7 @@ def update_server_ptr_record(server_id, _type, hostname):
         client.update_server_ipv4_ptr(server_id=server_id, data=data)
     elif _type == "ipv6":
         client.update_server_ipv6_ptr(server_id=server_id, data=data)
-    pprint(client.get_server(server_id=server_id).model_dump())
+    _print(client.get_server(server_id=server_id))
 
 
 @click.command(name="list")
@@ -105,10 +109,10 @@ def update_server_ptr_record(server_id, _type, hostname):
 def get_nfs_servers(server_id):
     """NFSサーバー情報の取得"""
     if server_id is not None:
-        pprint(client.get_nfs_server(nfs_server_id=server_id).model_dump())
+        _print(client.get_nfs_server(nfs_server_id=server_id))
     else:
         for item in client.get_nfs_servers():
-            pprint(item.model_dump())
+            _print(item)
 
 
 @click.command(name="update")
@@ -119,7 +123,7 @@ def update_nfs_server(nfs_server_id, name, description):
     """サーバー情報更新"""
     data = UpdateNfsServer(name=name, description=description)
     res = client.update_nfs_server(nfs_server_id=nfs_server_id, data=data)
-    pprint(res.model_dump())
+    _print(res)
 
 
 @click.command(name="update-ipv4")
@@ -129,14 +133,14 @@ def update_nfs_server_ipv4(nfs_server_id, address, netmask):
     """NFSサーバーのipv4を設定"""
     data = UpdateNfsServerIpv4(address=address, netmask=netmask)
     client.update_nfs_server_ipv4(nfs_server_id=nfs_server_id, data=data)
-    pprint(client.get_nfs_server(nfs_server_id=nfs_server_id))
+    _print(client.get_nfs_server(nfs_server_id=nfs_server_id))
 
 
 @click.command(name="power-status")
 @click.option("--nfs-server-id", "-id", help="サーバーID", required=True, type=int)
 def get_nfs_server_power_status(nfs_server_id):
     """NFSサーバーの電源状態を取得"""
-    pprint(client.get_nfs_server_power_status(nfs_server_id=nfs_server_id).model_dump())
+    _print(client.get_nfs_server_power_status(nfs_server_id=nfs_server_id))
 
 
 # server commands
