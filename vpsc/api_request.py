@@ -4,13 +4,14 @@ APIへのリクエストを直接的に行なっているモジュールです�
 ページングなどの処理もこちらで対応。
 
 """
-import json
 from collections.abc import Sized, Iterator
 from types import MappingProxyType
 from typing import Literal, Optional, Type, TYPE_CHECKING
 
 import requests
 from pydantic import BaseModel
+
+from .exceptions import APIException
 
 if TYPE_CHECKING:
     from client import APIConfig
@@ -90,7 +91,8 @@ class APIRequest(Iterator, Sized):
 
     def _fetch(self, **req_data) -> Optional[dict]:
         res = requests.request(**req_data)
-        res.raise_for_status()
+        if 400 <= res.status_code < 600:
+            raise APIException(res.status_code, res.json())
         if res.content is not None and len(res.content) > 3:
             data = res.json()
             self.count = data.get("count", 1)
