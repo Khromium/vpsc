@@ -106,10 +106,10 @@ def update_server_ptr_record(server_id, _type, hostname):
 
 @click.command(name="list")
 @click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=False, type=int)
-def get_nfs_servers(server_id):
+def get_nfs_servers(nfs_server_id):
     """NFSサーバー情報の取得"""
-    if server_id is not None:
-        _print(client.get_nfs_server(nfs_server_id=server_id))
+    if nfs_server_id is not None:
+        _print(client.get_nfs_server(nfs_server_id=nfs_server_id))
     else:
         for item in client.get_nfs_servers():
             _print(item)
