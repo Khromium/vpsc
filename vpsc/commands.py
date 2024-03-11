@@ -92,14 +92,16 @@ def shutdown_server(server_id, force):
 
 @click.command(name="ptr-record")
 @click.option("--server-id", "-id", help="サーバーID", required=True, type=int)
-@click.option("--type", "-t", help="設定タイプ", required=True, type=click.Choice(["ipv4", "ipv6"], case_sensitive=True))
+@click.option(
+    "--type", "-t", "type_", help="設定タイプ", required=True, type=click.Choice(["ipv4", "ipv6"], case_sensitive=False)
+)
 @click.option("--hostname", "-h", help="ホスト名", required=True, type=str)
-def update_server_ptr_record(server_id, _type, hostname):
+def update_server_ptr_record(server_id, type_, hostname):
     """サーバーの逆引きホスト名を設定"""
     data = UpdateHost(hostname=hostname)
-    if _type == "ipv4":
+    if type_ == "ipv4":
         client.update_server_ipv4_ptr(server_id=server_id, data=data)
-    elif _type == "ipv6":
+    elif type_ == "ipv6":
         client.update_server_ipv6_ptr(server_id=server_id, data=data)
     _print(client.get_server(server_id=server_id))
 
