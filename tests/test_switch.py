@@ -2,7 +2,7 @@ import unittest
 
 from vpsc.models import CreateSwitch, UpdateSwitch
 from vpsc.client import Client, APIConfig
-from .patch_request import patch_request
+from tests.patch_request import patch_request
 
 
 class TestServers(unittest.TestCase):
