@@ -12,6 +12,10 @@ class TestCommandServer(unittest.TestCase):
         self.addCleanup(patcher.stop)
         self.mock_client = patcher.start().return_value
 
+        patcher = mock.patch("vpsc.commands.APIConfig")
+        self.addCleanup(patcher.stop)
+        patcher.start()
+
         patcher = mock.patch("vpsc.commands._print")
         self.addCleanup(patcher.stop)
         self.mock_print = patcher.start()
