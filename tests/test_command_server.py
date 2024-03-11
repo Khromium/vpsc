@@ -3,7 +3,6 @@ from unittest import mock
 
 from click.testing import CliRunner
 
-from models import UpdateServer
 from vpsc.commands import vpsc
 
 
