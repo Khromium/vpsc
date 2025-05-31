@@ -3,12 +3,22 @@ VPSC のコマンド一覧です
 """
 
 from time import sleep
-from xmlrpc.client import Fault
 
 import click
 from pydantic import BaseModel
 
-from .models.custom import UpdateServer, UpdateHost, UpdateNfsServer, UpdateNfsServerIpv4, UpdateApiKey, CreateApiKey
+from .models.custom import (
+    UpdateServer,
+    UpdateHost,
+    UpdateNfsServer,
+    UpdateNfsServerIpv4,
+    UpdateApiKey,
+    CreateApiKey,
+    CreateServerMonitoring,
+    UpdateServerMonitoring,
+    UpdateKeymap,
+    MountDisc,
+)
 from .exceptions import exception_handler, APIException
 from .client import APIConfig, Client
 
@@ -47,6 +57,38 @@ def nfs_server():
 def apikey():
     """
     APIキーのリソースに対する操作
+    """
+
+
+@vpsc.group()
+def monitoring():
+    """
+    サーバー監視リソースに対する操作
+    """
+
+
+@vpsc.group(
+    [
+        "disc",
+    ]
+)
+def disc():
+    """
+    ディスクリソースに対する操作
+    """
+
+
+@vpsc.group()
+def keymap():
+    """
+    キーマップリソースに対する操作
+    """
+
+
+@vpsc.group()
+def zone():
+    """
+    ゾーンリソースに対する操作
     """
 
 
@@ -196,6 +238,118 @@ def delete_api_key(key_id):
     client.delete_api_key(key_id=key_id)
 
 
+@click.command(name="list")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--monitoring-id", "-id", help="監視ID", required=False, type=int)
+def get_server_monitorings(server_id, monitoring_id):
+    """サーバー監視情報の取得"""
+    if monitoring_id is not None:
+        _print(client.get_server_monitoring(monitoring_id=monitoring_id))
+    else:
+        for item in client.get_server_monitorings(server_id):
+            _print(item)
+
+
+@click.command(name="create")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--name", "-n", help="名前", required=True, type=str)
+@click.option("--description", "-d", help="説明", required=False, type=str, default="")
+@click.option("--resource-id", "-rid", help="監視リソースID", required=True, type=str)
+@click.option("--settings", "-s", help="設定情報(JSON形式)", required=True, type=str)
+def create_server_monitoring(server_id, name, description, resource_id, settings):
+    """サーバー監視の作成"""
+    import json
+
+    settings_data = json.loads(settings)
+    data = CreateServerMonitoring(
+        name=name,
+        description=description,
+        monitoring_resource_id=resource_id,
+        settings=settings_data,
+    )
+    res = client.create_server_monitoring(server_id=server_id, data=data)
+    _print(res)
+
+
+@click.command(name="update")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--monitoring-id", "-id", help="監視ID", required=True, type=int)
+@click.option("--name", "-n", help="名前", required=True, type=str)
+@click.option("--description", "-d", help="説明", required=False, type=str, default="")
+@click.option("--settings", "-s", help="設定情報(JSON形式)", required=True, type=str)
+def update_server_monitoring(server_id, monitoring_id, name, description, settings):
+    """サーバー監視の更新"""
+    import json
+
+    settings_data = json.loads(settings)
+    data = UpdateServerMonitoring(name=name, description=description, settings=settings_data)
+    res = client.update_server_monitoring(server_id=server_id, monitoring_id=monitoring_id, data=data)
+    _print(res)
+
+
+@click.command(name="delete")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--monitoring-id", "-id", help="監視ID", required=True, type=int)
+def delete_server_monitoring(server_id, monitoring_id):
+    """サーバー監視の削除"""
+    client.delete_server_monitoring(server_id=server_id, monitoring_id=monitoring_id)
+
+
+@click.command(name="health")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--monitoring-id", "-id", help="監視ID", required=True, type=int)
+def get_server_monitoring_health(server_id, monitoring_id):
+    """サーバー監視の健全性を取得"""
+    _print(client.get_server_monitoring_health(server_id=server_id, monitoring_id=monitoring_id))
+
+
+@click.command(name="list")
+def get_discs():
+    """ディスク一覧の取得"""
+    for item in client.get_discs():
+        _print(item)
+
+
+@click.command(name="mount")
+@click.option("--server-id", "-sid", help="サーバーID", required=True, type=int)
+@click.option("--disc-id", "-did", help="ディスクID", required=True, type=int)
+def mount_disc(server_id, disc_id):
+    """サーバーにディスクをマウント"""
+    data = MountDisc(disc_id=disc_id)
+    client.mount_disc(server_id=server_id, data=data)
+
+
+@click.command(name="storage-info")
+@click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=True, type=int)
+def get_nfs_storage_info(nfs_server_id):
+    """NFSサーバーのストレージ情報を取得"""
+    _print(client.get_nfs_storage_info(nfs_server_id=nfs_server_id))
+
+
+@click.command(name="get")
+@click.option("--server-id", "-id", help="サーバーID", required=True, type=int)
+def get_server_vnc_console_keymap(server_id):
+    """サーバーのVNCコンソールのキーマップを取得"""
+    _print(client.get_server_vnc_console_keymap(server_id=server_id))
+
+
+@click.command(name="update")
+@click.option("--server-id", "-id", help="サーバーID", required=True, type=int)
+@click.option("--layout", "-l", help="キー配列", required=True, type=click.Choice(["ja", "en-us"], case_sensitive=False))
+def update_server_vnc_console_keymap(server_id, layout):
+    """サーバーのVNCコンソールのキーマップを更新"""
+    data = UpdateKeymap(layout=layout)
+    res = client.update_server_vnc_console_keymap(server_id=server_id, data=data)
+    _print(res)
+
+
+@click.command(name="list")
+def get_zones():
+    """ゾーン一覧の取得"""
+    for item in client.get_zones():
+        _print(item)
+
+
 # server commands
 server.add_command(get_servers)
 server.add_command(update_server)
@@ -210,6 +364,7 @@ nfs_server.add_command(get_nfs_servers)
 nfs_server.add_command(update_nfs_server)
 nfs_server.add_command(update_nfs_server_ipv4)
 nfs_server.add_command(get_nfs_server_power_status)
+nfs_server.add_command(get_nfs_storage_info)
 
 # TODO: switch
 
@@ -217,6 +372,25 @@ nfs_server.add_command(get_nfs_server_power_status)
 apikey.add_command(get_api_keys)
 apikey.add_command(create_api_key)
 apikey.add_command(update_api_key)
+apikey.add_command(delete_api_key)
+
+# monitoring
+monitoring.add_command(get_server_monitorings)
+monitoring.add_command(create_server_monitoring)
+monitoring.add_command(update_server_monitoring)
+monitoring.add_command(delete_server_monitoring)
+monitoring.add_command(get_server_monitoring_health)
+
+# disc
+disc.add_command(get_discs)
+disc.add_command(mount_disc)
+
+# keymap
+keymap.add_command(get_server_vnc_console_keymap)
+keymap.add_command(update_server_vnc_console_keymap)
+
+# zone
+zone.add_command(get_zones)
 
 
 def entry_point():

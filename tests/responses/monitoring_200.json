@@ -1,0 +1,26 @@
+{
+  "id": 0,
+  "name": "string",
+  "description": "string",
+  "monitoring_resource_id": "string",
+  "update_status": "waiting",
+  "settings": {
+    "enabled": true,
+    "health_check": {
+      "protocol": "ping",
+      "interval_minutes": 60
+    },
+    "notification": {
+      "email": {
+        "enabled": true
+      },
+      "incoming_webhook": {
+        "enabled": true,
+        "webhooks_url": "string",
+        "slack_team_name": "string",
+        "slack_channel_name": "string"
+      },
+      "interval_hours": 72
+    }
+  }
+}

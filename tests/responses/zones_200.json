@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "id": 0,
+      "code": "tk1",
+      "name": "string",
+      "can_use_local": true,
+      "can_use_hybrid": true
+    }
+  ],
+  "count": 1,
+  "next": null,
+  "previous": null
+}

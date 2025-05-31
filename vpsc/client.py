@@ -17,6 +17,10 @@ from .models.custom import (
     CreateRole,
     UpdateRole,
     CreateApiKey,
+    CreateServerMonitoring,
+    UpdateServerMonitoring,
+    UpdateKeymap,
+    MountDisc,
 )
 from .models.generated import (
     Server,
@@ -28,6 +32,12 @@ from .models.generated import (
     ApiKey,
     Role,
     Permission,
+    ServerMonitoring,
+    ServerMonitoringHealth,
+    Disc,
+    NfsStorageInfo,
+    Keymap,
+    Zone3,
 )
 from .api_request import APIRequest
 
@@ -452,4 +462,164 @@ class Client:
             endpoint=f"/permissions",
             method="get",
             response_obj=Permission,
+        )
+
+    def get_server_monitorings(self, server_id: int) -> Iterable[ServerMonitoring]:
+        """
+        サーバー監視の一覧を取得する
+
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings",
+            method="get",
+            response_obj=ServerMonitoring,
+        )
+
+    def get_server_monitoring(self, server_id: int, monitoring_id: int) -> ServerMonitoring:
+        """
+        サーバー監視を取得する
+
+        :param monitoring_id: 監視ID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings/{monitoring_id}",
+            method="get",
+            response_obj=ServerMonitoring,
+        )
+
+    def create_server_monitoring(self, server_id: int, data: CreateServerMonitoring) -> ServerMonitoring:
+        """
+        サーバー監視を作成する
+
+        :param data: 作成データ
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings",
+            method="post",
+            data=data,
+            response_obj=ServerMonitoring,
+        )
+
+    def update_server_monitoring(
+        self, server_id: int, monitoring_id: int, data: UpdateServerMonitoring
+    ) -> ServerMonitoring:
+        """
+        サーバー監視を更新する
+
+        :param monitoring_id: 監視ID
+        :param data: 更新データ
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings/{monitoring_id}",
+            method="put",
+            data=data,
+            response_obj=ServerMonitoring,
+        )
+
+    def delete_server_monitoring(self, server_id: int, monitoring_id: int):
+        """
+        サーバー監視を削除する
+
+        :param monitoring_id: 監視ID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings/{monitoring_id}",
+            method="delete",
+        )
+
+    def get_server_monitoring_health(self, server_id: int, monitoring_id: int) -> ServerMonitoringHealth:
+        """
+        サーバー監視の健全性を取得する
+
+        :param monitoring_id: 監視ID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/monitorings/{monitoring_id}/health",
+            method="get",
+            response_obj=ServerMonitoringHealth,
+        )
+
+    def get_discs(self) -> Iterable[Disc]:
+        """
+        ディスク一覧を取得する
+
+        :return:
+        """
+        return self.client.request(
+            endpoint="/discs",
+            method="get",
+            response_obj=Disc,
+        )
+
+    def mount_disc(self, server_id: int, data: MountDisc):
+        """
+        サーバーにディスクをマウントする
+
+        :param server_id: サーバーID
+        :param data: マウントデータ
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/mount-disc",
+            method="post",
+            data=data,
+        )
+
+    def get_nfs_storage_info(self, nfs_server_id: int) -> NfsStorageInfo:
+        """
+        NFSサーバーのストレージ情報を取得する
+
+        :param nfs_server_id: NFSサーバーID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/nfs-servers/{nfs_server_id}/storage-info",
+            method="get",
+            response_obj=NfsStorageInfo,
+        )
+
+    def get_server_vnc_console_keymap(self, server_id: int) -> Keymap:
+        """
+        サーバーのVNCコンソールのキーマップを取得する
+
+        :param server_id: サーバーID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/vnc-console-keymap",
+            method="get",
+            response_obj=Keymap,
+        )
+
+    def update_server_vnc_console_keymap(self, server_id: int, data: UpdateKeymap) -> Keymap:
+        """
+        サーバーのVNCコンソールのキーマップを更新する
+
+        :param server_id: サーバーID
+        :param data: 更新データ
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/servers/{server_id}/vnc-console-keymap",
+            method="put",
+            data=data,
+            response_obj=Keymap,
+        )
+
+    def get_zones(self) -> Iterable[Zone3]:
+        """
+        ゾーン一覧を取得する
+
+        :return:
+        """
+        return self.client.request(
+            endpoint="/zones",
+            method="get",
+            response_obj=Zone3,
         )

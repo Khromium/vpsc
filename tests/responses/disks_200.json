@@ -1,0 +1,13 @@
+{
+  "results": [
+    {
+      "id": 0,
+      "name": "string",
+      "description": "string",
+      "license_required": true
+    }
+  ],
+  "count": 1,
+  "next": null,
+  "previous": null
+}

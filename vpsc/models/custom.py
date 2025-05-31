@@ -115,3 +115,24 @@ server_sort_query = Literal[
     "ipv6_ptr",
     "-ipv6_ptr",
 ]
+
+
+class CreateServerMonitoring(BaseModel):
+    name: constr(max_length=255) = Field(..., description="""名前""")
+    description: constr(max_length=10000) = Field(..., description="""説明""")
+    monitoring_resource_id: str = Field(..., description="""監視リソースID""")
+    settings: 'Settings'
+
+
+class UpdateServerMonitoring(BaseModel):
+    name: constr(max_length=255) = Field(..., description="""名前""")
+    description: constr(max_length=10000) = Field(..., description="""説明""")
+    settings: 'Settings'
+
+
+class UpdateKeymap(BaseModel):
+    layout: Literal["ja", "en-us"] = Field(..., description="""指定したいキー配列の名称""")
+
+
+class MountDisc(BaseModel):
+    disc_id: int = Field(..., description="""ディスクID""")

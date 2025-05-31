@@ -1,0 +1,1 @@
+# datamodel-codegen --input ./api-json.json --input-file-type openapi --output-model-type pydantic_v2.BaseModel --enum-field-as-literal all --reuse-model --strict-nullable --target-python-version 3.8 | sed -E "s/description='([^']+)'/description=\"\"\"\1\"\"\"/; s/\\\n/\n/g" > generated.py
