@@ -4,6 +4,8 @@ from typing import Literal, List, Optional
 
 from pydantic import BaseModel, Field, constr
 
+from models.generated import Settings
+
 
 class UpdateServer(BaseModel):
     name: str = Field(..., description="""名前""")
@@ -11,6 +13,10 @@ class UpdateServer(BaseModel):
 
 
 class ShutdownServer(BaseModel):
+    force: bool = Field(False, description="""強制停止を行うか""")
+
+
+class ShutdownNfsServer(BaseModel):
     force: bool = Field(False, description="""強制停止を行うか""")
 
 
@@ -121,13 +127,13 @@ class CreateServerMonitoring(BaseModel):
     name: constr(max_length=255) = Field(..., description="""名前""")
     description: constr(max_length=10000) = Field(..., description="""説明""")
     monitoring_resource_id: str = Field(..., description="""監視リソースID""")
-    settings: 'Settings'
+    settings: Settings
 
 
 class UpdateServerMonitoring(BaseModel):
     name: constr(max_length=255) = Field(..., description="""名前""")
     description: constr(max_length=10000) = Field(..., description="""説明""")
-    settings: 'Settings'
+    settings: Settings
 
 
 class UpdateKeymap(BaseModel):
@@ -136,3 +142,7 @@ class UpdateKeymap(BaseModel):
 
 class MountDisc(BaseModel):
     disc_id: int = Field(..., description="""ディスクID""")
+
+
+class UpdateNfsServerInterface(BaseModel):
+    switch_id: int = Field(..., description="""スイッチID""", examples=[1])

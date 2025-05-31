@@ -67,11 +67,7 @@ def monitoring():
     """
 
 
-@vpsc.group(
-    [
-        "disc",
-    ]
-)
+@vpsc.group()
 def disc():
     """
     ディスクリソースに対する操作
@@ -187,7 +183,8 @@ def update_nfs_server(nfs_server_id, name, description):
 
 @click.command(name="update-ipv4")
 @click.option("--nfs-server-id", "-id", help="NFSサーバーID", required=False, type=int)
-@click.option("--hostname", "-h", help="ホスト名", required=True, type=str)
+@click.option("--address", "-addr", help="アドレス", required=True, type=str)
+@click.option("--netmask", "-msk", help="サブネットマスク", required=True, type=str)
 def update_nfs_server_ipv4(nfs_server_id, address, netmask):
     """NFSサーバーのipv4を設定"""
     data = UpdateNfsServerIpv4(address=address, netmask=netmask)
@@ -246,7 +243,7 @@ def get_server_monitorings(server_id, monitoring_id):
     if monitoring_id is not None:
         _print(client.get_server_monitoring(monitoring_id=monitoring_id))
     else:
-        for item in client.get_server_monitorings(server_id):
+        for item in client.get_server_monitorings(server_id=server_id):
             _print(item)
 
 

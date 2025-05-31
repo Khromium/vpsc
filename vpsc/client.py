@@ -135,7 +135,7 @@ class Client:
             data=data,
         )
 
-    def force_force_reboot_server(self, server_id: int):
+    def force_reboot_server(self, server_id: int):
         """
         サーバーを強制再起動する
 
@@ -253,6 +253,19 @@ class Client:
         """
         return self.client.request(
             endpoint=f"/nfs-servers/{nfs_server_id}/power-status", method="get", response_obj=NfsServerPowerStatus
+        )
+
+    def shutdown_nfs_server(self, nfs_server_id: int, force: bool = False):
+        """
+        NFSサーバーをシャットダウンする
+        :param force: 強制停止を行うか
+        :param nfs_server_id: NFSサーバーID
+        :return:
+        """
+        return self.client.request(
+            endpoint=f"/nfs-servers/{nfs_server_id}/shutdown",
+            method="post",
+            data=ShutdownServer(force=force),
         )
 
     def create_switch(self, data: CreateSwitch) -> Switch:
@@ -394,8 +407,8 @@ class Client:
         :return:
         """
         return self.client.request(
-            endpoint=f"/api-keys/{key_id}",
-            method="put",
+            endpoint=f"/api-keys/{key_id}/rotate",
+            method="post",
             response_obj=ApiKey,
         )
 
@@ -579,7 +592,7 @@ class Client:
         :return:
         """
         return self.client.request(
-            endpoint=f"/nfs-servers/{nfs_server_id}/storage-info",
+            endpoint=f"/nfs-servers/{nfs_server_id}/storage",
             method="get",
             response_obj=NfsStorageInfo,
         )
